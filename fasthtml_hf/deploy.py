@@ -30,8 +30,8 @@ CMD ["python", "main.py"]
 
 @call_parse
 def deploy(
+    space_id:str, # ID of the space to upload to
     token:str=None, # Hugging Face token for authentication
-    space_id:str="fasthtml-todos", # ID of the space to upload to
     python_ver:str='3.10', # Version of python to use
     upload:bool_arg=True, # Set to `false` to skip uploading files
     private:bool_arg=False): # Make the repository private
