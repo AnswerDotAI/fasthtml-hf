@@ -10,7 +10,7 @@ def _token(): return os.getenv("HF_TOKEN")
 def get_cfg():
     return Config('.', 'config.ini',
                   types=dict(dataset_id=str, db_dir=str, private_backup=bool),
-                  create=dict(dataset_id='todos-backup', db_dir='data', private_backup=True))
+                  create=dict(dataset_id='space-backup', db_dir='data', private_backup=True))
 
 def get_dataset_id(cfg):
     did = cfg.dataset_id
