@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fasthtml-hf"
-version = "0.1.0"
+version = "0.1.1"
 description = "Huggingface deployment for FastHTML"
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -13,7 +13,7 @@ authors = [
     { name = "Freddy Boulton", email = "info@fast.ai" }
 ]
 requires-python = ">=3.7, <4"
-dependencies = [ "fastcore" ]
+dependencies = [ "fastcore", "huggingface-hub" ]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
