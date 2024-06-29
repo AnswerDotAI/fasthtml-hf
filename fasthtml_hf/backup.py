@@ -1,8 +1,10 @@
-from fastcore.utils import *
-import os, shutil, datetime
+import os, shutil
 os.environ['HF_HUB_DISABLE_PROGRESS_BARS'] = '1'
+from fastcore.utils import *
+from datetime import datetime
 from huggingface_hub import snapshot_download, upload_folder, create_repo, repo_exists, whoami
 
+__all__ = ['download', 'upload', 'setup_hf_backup']
 def _token(): return os.getenv("HF_TOKEN")
 
 def get_cfg():
@@ -11,23 +13,26 @@ def get_cfg():
                   create=dict(dataset_id='todos-backup', db_dir='data', private_backup=True))
 
 def get_dataset_id(cfg):
-    token,dataset_id = _token(),cfg.dataset_id
-    if "/" in dataset_id or token is None: return dataset_id
-    return f"{whoami(token)['name']}/{dataset_id}"
+    did = cfg.dataset_id
+    if "/" in did or _token() is None: return did
+    return f"{whoami(_token())['name']}/{did}"
 
 def download():
     cfg = get_cfg()
-    dataset_id = get_dataset_id(cfg)
-    if os.getenv("SPACE_ID") and repo_exists(dataset_id, repo_type="dataset", token=os.getenv("HF_TOKEN")):
-        cache_path = snapshot_download(repo_id=dataset_id, repo_type='dataset',
-                                       token=_token())
+    did = get_dataset_id(cfg)
+    if os.getenv("SPACE_ID") and repo_exists(did, repo_type="dataset", token=_token()):
+        cache_path = snapshot_download(repo_id=did, repo_type='dataset', token=_token())
         shutil.copytree(cache_path, cfg.db_dir, dirs_exist_ok=True)
 
 def upload():
     cfg = get_cfg()
     if not os.getenv("SPACE_ID"): return
-    dataset_id = get_dataset_id(cfg)
-    create_repo(dataset_id, token=_token, private=True, repo_type='dataset', exist_ok=True)
-    upload_folder(folder_path=cfg.db_dir, token=_token(),
-                repo_id=dataset_id, repo_type='dataset',
-                commit_message=f"backup at {datetime.datetime.now()}")
+    did = get_dataset_id(cfg)
+    create_repo(did, token=_token, private=True, repo_type='dataset', exist_ok=True)
+    upload_folder(folder_path=cfg.db_dir, token=_token(), repo_id=did,
+                  repo_type='dataset', commit_message=f"backup {datetime.now()}")
+
+def setup_hf_backup(app):
+    app.on_event("startup")(download)
+    app.on_event("shutdown")(upload)
+
