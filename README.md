@@ -8,7 +8,8 @@ Deploy a FastHTML application to [HuggingFace Spaces](https://huggingface.co/spa
 2. Go to your account settings and create an access token with write access. Keep this token safe and don't share it.
 3. Set the `HF_TOKEN` environment variable to that token
 4. Install fasthtml-hf: `pip install fasthtml-hf`
-5. Run `fh_hf_deploy <space_name>`, replacing `<space_name>` with the name you want to give your space.
+5. At the top of your `main.py` add `from fasthtml_hf import setup_hf_backup`, and just before you run uvicorn add `setup_hf_backup(app)`
+6. Run `fh_hf_deploy <space_name>`, replacing `<space_name>` with the name you want to give your space.
 
 By default this will upload a public space. You can make it private with `--private true`.
 
