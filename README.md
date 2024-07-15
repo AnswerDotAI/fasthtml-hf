@@ -22,6 +22,7 @@ The space will upload a backup of your database to a [HuggingFace Dataset](https
 dataset_id = space-backup
 db_dir = data
 private_backup = True
+interval = 15 # number of minutes between periodic backups
 ```
 
 If you so choose, you can disable the automatic backups and use [persistent storage](https://huggingface.co/docs/hub/en/spaces-storage#persistent-storage-specs) instead for $5/month (USD). 
