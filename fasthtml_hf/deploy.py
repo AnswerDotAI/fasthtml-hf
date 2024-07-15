@@ -9,7 +9,7 @@ def _mk_docker(python_ver):
     packages = Path('packages.txt')
     pkg_line = ''
     reqs = Path('requirements.txt')
-    if not reqs.exists(): reqs.write_text('python-fasthtml')
+    if not reqs.exists(): reqs.write_text('python-fasthtml\nfasthtml-hf\n')
     req_line = f'RUN pip install --no-cache-dir -r requirements.txt'
     if packages.exists():
         pkglist = ' '.join(packages.readlines())
@@ -28,6 +28,23 @@ CMD ["python", "main.py"]
 """
     fn.write_text(cts)
 
+
+def _mk_README(space_id):
+    fn = Path('README.md')
+    if fn.exists(): return
+    cts = f"""
+---
+title: {space_id}
+emoji: 🚀
+colorFrom: purple
+colorTo: red
+sdk: docker
+app_file: app.py
+pinned: false
+---
+"""
+    fn.write_text(cts)
+
 @call_parse
 def deploy(
     space_id:str, # ID of the space to upload to
@@ -40,6 +57,7 @@ def deploy(
     if not token: return print('No token available')
     if "/" not in space_id: space_id = f"{whoami(token)['name']}/{space_id}"
     _mk_docker(python_ver)
+    _mk_README(space_id)
     url = create_repo(space_id, token=token, repo_type='space',
                       space_sdk="docker", private=private, exist_ok=True)
     if not upload: return print('Repo created; upload skipped')
