@@ -51,7 +51,7 @@ def deploy(
     token:str=None, # Hugging Face token for authentication
     python_ver:str='3.10', # Version of python to use
     upload:bool_arg=True, # Set to `false` to skip uploading files
-    private:bool_arg=False): # Make the repository private
+    private:lambda x: bool(bool_arg(x))=False): # Make the repository private
     "Upload current directory to Hugging Face Spaces"
     if not token: token=os.getenv('HF_TOKEN')
     if not token: return print('No token available')
