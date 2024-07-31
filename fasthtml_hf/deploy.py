@@ -58,6 +58,7 @@ def deploy(
     if "/" not in space_id: space_id = f"{whoami(token)['name']}/{space_id}"
     _mk_docker(python_ver)
     _mk_README(space_id)
+    private = bool(private) # `private` can be 0,1 or False. As `create_repo` expects private to be True/False we cast it.
     url = create_repo(space_id, token=token, repo_type='space',
                       space_sdk="docker", private=private, exist_ok=True)
     if not upload: return print('Repo created; upload skipped')
