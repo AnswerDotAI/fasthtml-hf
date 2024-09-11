@@ -30,7 +30,8 @@ def upload():
     cfg = get_cfg()
     if not os.getenv("SPACE_ID"): return
     did = get_dataset_id(cfg)
-    create_repo(did, token=_token(), private=cfg.getboolean("DEFAULT", "private_backup"), repo_type='dataset', exist_ok=True)
+    import pdb; pdb.set_trace()
+    create_repo(did, token=_token(), private=bool(cfg.get("private_backup")), repo_type='dataset', exist_ok=True)
     upload_folder(folder_path=cfg.db_dir, token=_token(), repo_id=did,
                   repo_type='dataset', commit_message=f"backup {datetime.now()}")
 
