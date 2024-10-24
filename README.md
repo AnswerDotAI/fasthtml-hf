@@ -16,7 +16,7 @@ By default this will upload a public space. You can make it private with `--priv
 
 ## Configuration
 
-The space will upload a backup of your database to a [Hugging Face Dataset](https://huggingface.co/datasets). By default it will be private and its name will be `<your-huggingface-id>/space-backup`. You can change this behavior in the `config.ini` file. In not provided, a default file will be created with the contents (note that the `[DEFAULT]` line is required at the top):
+The space will upload a backup of your database to a [Hugging Face Dataset](https://huggingface.co/datasets). By default it will be private and its name will be `<your-huggingface-id>/space-backup`. You can change this behavior in the `config.ini` file. If not provided, a default file will be created with the contents (note that the `[DEFAULT]` line is required at the top):
 
 ```
 [DEFAULT]
